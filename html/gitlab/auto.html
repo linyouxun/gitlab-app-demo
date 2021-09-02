@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>auto</title>
+</head>
+
+<body>
+    <button onclick="auto()">获取授权</button>
+    <script>
+        function auto() {
+            const params = {
+                'client_id': '4a4e4f0e467a6c14b848bf6f94475cf2e122e9579480ae4811f8bb27e62b51a1',
+                redirect_uri: 'http://10.180.38.148:7878/gitlab/login.html',
+                response_type: 'code',
+                'scope': 'api',
+                state: 'STATE'
+            }
+            const href = `http://10.180.38.148/oauth/authorize?${Object.keys(params).map((item) => {
+                return `${item}=${params[item]}`
+            }).join('&')}`
+            location.href = href
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+</head>
+
+<body>
+    <button onclick="getUserInfo()">code send</button>
+    <script>
+        const SUCCESS = 200
+        function getUserInfo() {
+            const parmas = {
+                code: window.location.search.split('code=')[1],
+                grant_type: "authorization_code",
+                redirect_uri: window.location.href,
+            }
+            const search = Object.keys(parmas).map(key => {
+                return `${key}=${parmas[key]}`
+            }).join('&')
+
+            fetch(`/gitlab/oauth/token?${search}`).then(res => {
+                return res.json()
+            }).then(res => {
+                if (res.code === SUCCESS) {
+                    localStorage.setItem('token', res.data)
+                } else {
+                    const flat = confirm('token 已失效, 重新授权');
+                    if (flat) {
+                        window.location.href = '/gitlab/auto.html'
+                    }
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>
